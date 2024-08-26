@@ -14,7 +14,9 @@ class admin(adminTemplate):
         self.init_components(**properties)
         self.user = user
         #self.total_user.text = anvil.server.call('total_users',self.user['users_usertype'])
-        # if user is not None:
+        if user is not None:
+            self.label_4.text = user['user_fullname']  
+      # if user is not None:
             # user_email =  user['users_email']
             # self.label_4.text = user['users_email']
             #self.image_3.source=user['users_profile_pic']
