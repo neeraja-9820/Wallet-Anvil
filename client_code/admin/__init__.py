@@ -15,16 +15,19 @@ class admin(adminTemplate):
         self.user = user
         #self.total_user.text = anvil.server.call('total_users',self.user['users_usertype'])
         if user is not None:
-            self.label_4.text = user['users_username']
+            self.label_4.text = user['user_fullname']  
+      # if user is not None:
+            # user_email =  user['users_email']
+            # self.label_4.text = user['users_email']
             #self.image_3.source=user['users_profile_pic']
         self.refresh_data()
         self.check_profile_pic()
 
     def check_profile_pic(self):
-        if self.user and 'users_email' in self.user:
-            user_data = app_tables.wallet_users.get(users_email=str(self.user['users_email']))
+        if self.user and 'user_email' in self.user:
+            user_data = app_tables.wallet_users.get(users_email=str(self.user['user_email']))
             if user_data:
-                existing_img = user_data.get('users_profile_pic')
+                existing_img = user_data.get('user_profile_photo')
                 if existing_img:
                     self.image_3.source = existing_img
                 else:
@@ -153,7 +156,7 @@ class admin(adminTemplate):
         open_form('admin.admin_add_user',user=self.user)
 
     def link_9_click(self, **event_args):
-      if self.user['users_usertype'] == 'super_admin':
+      if self.user['user_type'] == 'super_admin':
           # Open the admin creation form
           open_form("admin.create_admin", user=self.user)
       else:

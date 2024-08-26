@@ -13,7 +13,7 @@ components:
   layout_properties: {grid_position: 'LYTDQS,MAAGXS'}
   event_bindings: {pressed_enter: text_box_1_pressed_enter}
   data_bindings:
-  - {property: text, code: 'self.item[''admins_add_currency_country'']', writeback: false}
+  - {property: text, code: 'self.item[''country'']', writeback: false}
 - name: spacer_9_copy
   properties: {height: 37.199981689453125}
   type: Spacer
@@ -25,7 +25,7 @@ components:
   type: TextBox
   layout_properties: {grid_position: 'LYTDQS,OXHOGY'}
   data_bindings:
-  - {property: text, code: 'self.item[''admins_add_currency_code'']', writeback: false}
+  - {property: text, code: 'self.item[''code'']', writeback: false}
   event_bindings: {pressed_enter: text_box_2_pressed_enter}
 - name: spacer_9
   properties: {height: 37.199981689453125}
@@ -38,7 +38,7 @@ components:
   type: Image
   layout_properties: {grid_position: 'LYTDQS,OUJISL'}
   data_bindings:
-  - {property: source, code: 'self.item[''admins_add_currency_icon'']', writeback: false}
+  - {property: source, code: 'self.item[''icon'']', writeback: false}
 - name: view_user
   properties: {role: null, bold: true, align: center, spacing_above: small, background: '#1d6eae', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:White', spacing_below: small, visible: true, border: '', italic: true, enabled: true, font_size: 12, tooltip: '', text: View number of user}
   type: Button
