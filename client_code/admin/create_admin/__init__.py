@@ -31,19 +31,18 @@ class create_admin(create_adminTemplate):
             self.label_13.foreground = "green"
             self.label_13.text = "Phone number is correct"
 
-        # Check if admin with this phone number already exists in wallet_users
+        # Check if admin with this phone number already exists
         phone_number_exists = anvil.server.call('get_user_by_phone', phone_number)
         if phone_number_exists:
             alert(f"Phone number '{phone_number}' is already in use.")
             return
-    
+
         # Check if email exists
         email = self.text_box_2.text.strip().lower()
         email_exists = anvil.server.call('check_email_exists', email)
         if email_exists:
             alert(f"Email '{email}' is already in use.")
             return
-
 
         # Check if passwords match
         if self.text_box_5.text != self.text_box_6.text:
@@ -60,27 +59,26 @@ class create_admin(create_adminTemplate):
             self.label_9.text = "Password matches"
 
         try:
-            
+            user_id = anvil.server.call('generate_user_id')  # Generate or fetch user ID if needed
             joined_date = datetime.now().date()
 
-            # Ensure the date is in the correct format
+            # Ensure the dates are in the correct format
             dob_str = self.date_picker_1.date.strftime('%Y-%m-%d')
             joined_date_str = joined_date.strftime('%Y-%m-%d')
-          
+
             anvil.server.call(
                 'add_admins_info',
-                
+                user_id,
                 self.text_box_1.text,  # Full name
                 email,
                 phone_number,
                 self.text_box_5.text,  # Password
                 dob_str,  # Date of Birth
-                str(self.drop_down_1.selected_value),
+                str(self.drop_down_1.selected_value),  # Gender
                 joined_date_str  # Joined Date
             )
 
             print('Admin credentials stored for login')
-            
             open_form('admin')
         except Exception as e:
             alert(f"Error adding admin: {str(e)}")
