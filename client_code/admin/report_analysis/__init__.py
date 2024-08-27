@@ -15,7 +15,7 @@ class report_analysis(report_analysisTemplate):
         self.init_components(**properties)
         self.user = user
         if user is not None:
-            self.label_656.text = user['users_username']
+            self.label_656.text = user['user_fullname']
         
         # Hide plot initially
         self.plot_1.visible = False
