@@ -7,7 +7,7 @@ from anvil.tables import app_tables
 
 class login(loginTemplate):
 
-  def _init_(self, **properties):
+  def init(self, **properties):
     self.init_components(**properties)
     self.card_3.visible = False
     self.text_box_2.visible = False
@@ -154,7 +154,7 @@ class login(loginTemplate):
 
 # class login(loginTemplate):
 
-#   def __init__(self, **properties):
+#   def _init_(self, **properties):
 #     self.init_components(**properties)
 #     self.card_3.visible = False
 #     self.text_box_2.visible = False
@@ -288,5 +288,3 @@ class login(loginTemplate):
 #             open_form('customer', user=user)
 #     else:
 #         alert("User not found. Please try again.")
-
-
