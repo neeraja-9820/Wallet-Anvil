@@ -21,13 +21,13 @@ class user_support(user_supportTemplate):
         # Call the server to get all queries
         queries = anvil.server.call('search_user_service_query', "")
         self.repeating_panel_1.items = queries
+      
     def link_111_click(self, **event_args):
         """This method is called when the link is clicked"""
         # Filter to show only solved queries
         queries = anvil.server.call('search_user_service_query', "")
         solved_queries = [q for q in queries if q['users_update']]
         self.repeating_panel_1.items = solved_queries
-       
 
     def link_2_click(self, **event_args):
         """This method is called when the link is clicked"""
