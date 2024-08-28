@@ -13,7 +13,7 @@ class report_analysis(report_analysisTemplate):
         self.init_components(**properties)
         self.user = user
         if user is not None:
-            self.label_656.text = user.get('user_fullname', 'Unknown User')
+            self.label_656.text = user['user_fullname']
         
         # Hide plot initially
         self.plot_1.visible = False
@@ -22,19 +22,11 @@ class report_analysis(report_analysisTemplate):
     def refresh_data(self, data_type):
         if data_type == "transaction_trends":
             # Call the server function to get transactions data
-            transactions = anvil.server.call('get_transactions', self.user.get('user_fullname', 'Unknown User'))
-
-            if not isinstance(transactions, list):
-                print("Error: Transactions data is not a list.")
-                return
-
+            transactions = anvil.server.call('get_transactions', self.user['user_fullname'])
+        
             # Organize data for plotting (example: aggregate by date and type)
             data_for_plot = {}
             for transaction in transactions:
-                if not isinstance(transaction, dict):
-                    print("Warning: Skipping invalid transaction entry.")
-                    continue
-
                 date = transaction.get('transaction_timestamp', 'Unknown Date')
                 trans_type = transaction.get('transaction_type', 'Unknown Type')
                 fund = transaction.get('transaction_amount', 0)  # Default to 0 if not present
@@ -76,55 +68,33 @@ class report_analysis(report_analysisTemplate):
         
         elif data_type == "user_activity":
             # Call the server function to get user data
-            users = anvil.server.call('get_user_data', self.user.get('user_fullname', 'Unknown User'))
-
-            if not isinstance(users, list):
-                print("Error: Users data is not a list.")
-                return
-
+            users = anvil.server.call('get_user_data', self.user['user_fullname'])
+        
             # Count the number of active, inactive, and banned users
-            active_users = sum(1 for user in users if isinstance(user, dict) and not user.get('inactive', False) and not user.get('banned', False))
-            inactive_users = sum(1 for user in users if isinstance(user, dict) and user.get('inactive', False) and not user.get('banned', False))
-            banned_users = sum(1 for user in users if isinstance(user, dict) and user.get('banned', False))
-        
-            # Calculate the total number of users
-            total_users = banned_users + active_users + inactive_users
-        
-            # Check if the total number of users is greater than zero to avoid division by zero
-            if total_users > 0:
-                banned_percentage = (banned_users / total_users) * 100
-                active_percentage = (active_users / total_users) * 100
-                inactive_percentage = (inactive_users / total_users) * 100
-            else:
-                # If there are no users, set percentages to zero
-                banned_percentage = 0
-                active_percentage = 0
-                inactive_percentage = 0
-        
-            # Create pie chart data with labels and percentages
-            labels = ['Banned Users', 'Active Users', 'Inactive Users']
-            values = [banned_percentage, active_percentage, inactive_percentage]
-        
-            # Plot the pie chart with labels and percentages
+            active_users = sum(1 for user in users if self.is_user_active(user))
+            inactive_users = sum(1 for user in users if self.is_user_inactive(user))
+            banned_users = sum(1 for user in users if self.is_user_banned(user))
+            
+            # Create pie chart data
+            labels = ['Active Users', 'Inactive Users', 'Banned Users']
+            values = [active_users, inactive_users, banned_users]
+            
+            # Plot the pie chart with click event handler
             self.plot_1.data = [{
                 'labels': labels,
                 'values': values,
                 'type': 'pie',
-                'textinfo': 'label+percent',  # Show both label and percentage on the chart
-                'hoverinfo': 'label+percent+value'  # Display value on hover for better insights
+                'textinfo': 'label+percent',
+                'hoverinfo': 'label+percent+value'
             }]
             self.plot_1.layout = go.Layout(
                 title="User Activity",
-                showlegend=True  # Ensure that the legend is shown
+                showlegend=True
             )
 
         elif data_type == "system_performance":
             # Call the server function to get transaction proof data
             transaction_proofs = anvil.server.call('get_transaction_proofs')
-
-            if not isinstance(transaction_proofs, list):
-                print("Error: Transaction proofs data is not a list.")
-                return
 
             # Count the number of successful and failed transactions
             successful_transactions = sum(1 for proof in transaction_proofs if isinstance(proof, dict) and proof.get('users_transaction_status') == 'success')
@@ -158,6 +128,46 @@ class report_analysis(report_analysisTemplate):
         # Show the plot
         self.plot_1.visible = True
 
+    def is_user_active(self, user):
+        """Check if the user is active (not banned and not inactive)."""
+        return user.get('user_banned') is None and user.get('user_inactive') is None
+
+    def is_user_inactive(self, user):
+        """Check if the user is inactive (not banned but marked as inactive)."""
+        return user.get('user_banned') is None and user.get('user_inactive') is not None
+
+    def is_user_banned(self, user):
+        """Check if the user is banned."""
+        return user.get('user_banned') is not None
+
+    def plot_1_click(self, points, **event_args):
+        """This method is called when a data point is clicked."""
+        clicked_label = points[0]['label'] if points else None
+        
+        if clicked_label == 'Active Users':
+            self.show_user_list(self.get_filtered_users('Active'))
+        elif clicked_label == 'Inactive Users':
+            self.show_user_list(self.get_filtered_users('Inactive'))
+        elif clicked_label == 'Banned Users':
+            self.show_user_list(self.get_filtered_users('Banned'))
+    
+    def get_filtered_users(self, status):
+        """Filter users based on the clicked status."""
+        users = anvil.server.call('get_user_data', self.user['user_fullname'])
+        if status == 'Active':
+            return [user for user in users if self.is_user_active(user)]
+        elif status == 'Inactive':
+            return [user for user in users if self.is_user_inactive(user)]
+        elif status == 'Banned':
+            return [user for user in users if self.is_user_banned(user)]
+        return []
+
+    def show_user_list(self, filtered_users):
+        """Display the list of filtered users based on the selected status."""
+        # Here you can implement logic to display filtered users, such as updating a table or label.
+        # For demonstration, we'll print the filtered user count.
+        alert(f"Number of users: {len(filtered_users)}")
+      
     def link_44_click(self, **event_args):
         """This method is called when the button is clicked"""
         self.refresh_data("transaction_trends")
@@ -192,12 +202,58 @@ class report_analysis(report_analysisTemplate):
 
     def link_4_click(self, **event_args):
         """This method is called when the link is clicked"""
-        open_form('admin.settings', user=self.user)
+        open_form('admin.admin_add_user', user=self.user)
 
     def link_3_click(self, **event_args):
         """This method is called when the link is clicked"""
-        open_form('admin.home', user=self.user)
+        show_users_form = open_form('admin.transaction_monitoring', user=self.user)
+
+    def link_8_copy_click(self, **event_args):
+        """This method is called when the link is clicked"""
+        open_form('admin', user=self.user)
+
+    def button_8_click(self, **event_args):
+        """This method is called when the button is clicked"""
+        open_form('Login')
+
+    def button_3_copy_click(self, **event_args):
+        """This method is called when the button is clicked"""
+        open_form('admin', user=self.user)
 
     def link_8_click(self, **event_args):
         """This method is called when the link is clicked"""
-        open_form('admin.system_performance', user=self.user)
+        open_form('admin', user=self.user)
+
+    def link_10_click(self, **event_args):
+        """This method is called when the link is clicked"""
+        open_form('admin.add_currency', user=self.user)
+
+    def link_5_copy_click(self, **event_args):
+        if self.user['user_usertype'] == 'super_admin':
+            open_form('admin.manage_users', user=self.user)
+        elif self.user['user_usertype'] == 'admin':
+            open_form('admin.manage_users', user=self.user)
+        else:
+            open_form('user.view_profile', user=self.user)
+
+    # def plot_1_click(self, points, **event_args):
+    #   """This method is called when a data point is clicked."""
+    #   if points:
+    #       # Get the clicked segment's label
+    #       clicked_label = points['points'][0]['label']
+          
+    #       if clicked_label == 'Active Users':
+    #           # Perform action for active users
+    #           print("Clicked on Active Users")
+    #           # Open the relevant form or perform an action
+    #           # For example: open_form('admin.active_users', user=self.user)
+    #       elif clicked_label == 'Inactive Users':
+    #           # Perform action for inactive users
+    #           print("Clicked on Inactive Users")
+    #           # Open the relevant form or perform an action
+    #           # For example: open_form('admin.inactive_users', user=self.user)
+    #       elif clicked_label == 'Banned Users':
+    #           # Perform action for banned users
+    #           print("Clicked on Banned Users")
+    #           # Open the relevant form or perform an action
+    #           # For example: open_form('admin.banned_users', user=self.user)
