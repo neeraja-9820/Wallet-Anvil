@@ -13,7 +13,7 @@ class report_analysis(report_analysisTemplate):
         self.init_components(**properties)
         self.user = user
         if user is not None:
-            self.label_656.text = user['user_fullname']
+            self.label_656.text = user.get('user_fullname', 'Unknown User')
         
         # Hide plot initially
         self.plot_1.visible = False
@@ -22,14 +22,22 @@ class report_analysis(report_analysisTemplate):
     def refresh_data(self, data_type):
         if data_type == "transaction_trends":
             # Call the server function to get transactions data
-            transactions = anvil.server.call('get_transactions', self.user['user_fullname'])
-        
+            transactions = anvil.server.call('get_transactions', self.user.get('user_fullname', 'Unknown User'))
+
+            if not isinstance(transactions, list):
+                print("Error: Transactions data is not a list.")
+                return
+
             # Organize data for plotting (example: aggregate by date and type)
             data_for_plot = {}
             for transaction in transactions:
-                date = transaction['transaction_timestamp']
-                trans_type = transaction['transaction_type']
-                fund = transaction['transaction_amount']  # Retrieve the 'fund' field
+                if not isinstance(transaction, dict):
+                    print("Warning: Skipping invalid transaction entry.")
+                    continue
+
+                date = transaction.get('transaction_timestamp', 'Unknown Date')
+                trans_type = transaction.get('transaction_type', 'Unknown Type')
+                fund = transaction.get('transaction_amount', 0)  # Default to 0 if not present
         
                 if date not in data_for_plot:
                     data_for_plot[date] = {'Debit': 0, 'Credit': 0, 'Account to G-wallet': 0}
@@ -60,20 +68,24 @@ class report_analysis(report_analysisTemplate):
             e_wallet_values = [data['Account to G-wallet'] for data in data_for_plot.values()]
         
             self.plot_1.data = [
-                {'x': categories, 'y': debit_values, 'type': 'bar', 'name': 'Debit'},
-                {'x': categories, 'y': credit_values, 'type': 'bar', 'name': 'Credit'},
-                {'x': categories, 'y': e_wallet_values, 'type': 'bar', 'name': 'Account to G-wallet'}
+                go.Bar(x=categories, y=debit_values, name='Debit'),
+                go.Bar(x=categories, y=credit_values, name='Credit'),
+                go.Bar(x=categories, y=e_wallet_values, name='Account to G-wallet')
             ]
             self.plot_1.layout = go.Layout(title="Transaction Trends")
         
         elif data_type == "user_activity":
             # Call the server function to get user data
-            users = anvil.server.call('get_user_data')
-        
+            users = anvil.server.call('get_user_data', self.user.get('user_fullname', 'Unknown User'))
+
+            if not isinstance(users, list):
+                print("Error: Users data is not a list.")
+                return
+
             # Count the number of active, inactive, and banned users
-            active_users = sum(1 for user in users if not user['inactive'] and not user['banned'])
-            inactive_users = sum(1 for user in users if user['inactive'] and not user['banned'])
-            banned_users = sum(1 for user in users if user['banned'])
+            active_users = sum(1 for user in users if isinstance(user, dict) and not user.get('inactive', False) and not user.get('banned', False))
+            inactive_users = sum(1 for user in users if isinstance(user, dict) and user.get('inactive', False) and not user.get('banned', False))
+            banned_users = sum(1 for user in users if isinstance(user, dict) and user.get('banned', False))
         
             # Calculate the total number of users
             total_users = banned_users + active_users + inactive_users
@@ -110,9 +122,13 @@ class report_analysis(report_analysisTemplate):
             # Call the server function to get transaction proof data
             transaction_proofs = anvil.server.call('get_transaction_proofs')
 
+            if not isinstance(transaction_proofs, list):
+                print("Error: Transaction proofs data is not a list.")
+                return
+
             # Count the number of successful and failed transactions
-            successful_transactions = sum(1 for proof in transaction_proofs if proof['users_transaction_status'] == 'success')
-            failed_transactions = sum(1 for proof in transaction_proofs if proof['users_transaction_status'] == 'failed')
+            successful_transactions = sum(1 for proof in transaction_proofs if isinstance(proof, dict) and proof.get('users_transaction_status') == 'success')
+            failed_transactions = sum(1 for proof in transaction_proofs if isinstance(proof, dict) and proof.get('users_transaction_status') == 'failed')
 
             # Calculate percentages
             total_transactions = successful_transactions + failed_transactions
@@ -176,40 +192,12 @@ class report_analysis(report_analysisTemplate):
 
     def link_4_click(self, **event_args):
         """This method is called when the link is clicked"""
-        open_form('admin.admin_add_user', user=self.user)
+        open_form('admin.settings', user=self.user)
 
     def link_3_click(self, **event_args):
         """This method is called when the link is clicked"""
-        show_users_form = open_form('admin.transaction_monitoring', user=self.user)
-
-    def link_8_copy_click(self, **event_args):
-        """This method is called when the link is clicked"""
-        open_form('admin', user=self.user)
-
-    def button_8_click(self, **event_args):
-        """This method is called when the button is clicked"""
-        open_form('Login')
-
-    def button_3_copy_click(self, **event_args):
-        """This method is called when the button is clicked"""
-        open_form('admin', user=self.user)
+        open_form('admin.home', user=self.user)
 
     def link_8_click(self, **event_args):
         """This method is called when the link is clicked"""
-        open_form('admin', user=self.user)
-
-    def link_10_click(self, **event_args):
-        """This method is called when the link is clicked"""
-        open_form('admin.add_currency', user=self.user)
-
-    def link_5_copy_click(self, **event_args):
-        if self.user['users_usertype'] == 'super_admin':
-            open_form('admin.manage_privacy', user=self.user)
-        else:
-            alert("Access Denied!")
-
-    def link_6_copy_click(self, **event_args):
-        if self.user['users_usertype'] == 'super_admin':
-            open_form('admin.manage_privacy', user=self.user)
-        else:
-            alert("Access Denied!")
+        open_form('admin.system_performance', user=self.user)
