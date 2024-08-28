@@ -261,11 +261,11 @@ def get_admin_by_phone(phone_number):
 # def get_wallet_transactions():
 #     return app_tables.wallet_users_transaction.search()
 
-@anvil.server.callable
-def get_transaction_proofs():
-    # Fetch proof data from the 'transactions' table
-    transaction_proofs = app_tables.wallet_users_transaction.search()
-    return transaction_proofs
+# @anvil.server.callable
+# def get_transaction_proofs():
+#     # Fetch proof data from the 'transactions' table
+#     transaction_proofs = app_tables.wallet_users_transaction.search()
+#     return transaction_proofs
 
 @anvil.server.callable
 def get_transactions():

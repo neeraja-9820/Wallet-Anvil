@@ -5,8 +5,6 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import plotly.graph_objects as go
 import anvil.server
-import anvil.tables as tables
-import anvil.tables.query as q
 import re  # Import the regular expression module
 
 class report_analysis(report_analysisTemplate):
@@ -20,18 +18,18 @@ class report_analysis(report_analysisTemplate):
         # Hide plot initially
         self.plot_1.visible = False
         self.refresh_data("transaction_trends")
-
+      
     def refresh_data(self, data_type):
         if data_type == "transaction_trends":
             # Call the server function to get transactions data
-            transactions = anvil.server.call('get_transactions')
+            transactions = anvil.server.call('get_transactions', self.user['user_fullname'])
         
             # Organize data for plotting (example: aggregate by date and type)
             data_for_plot = {}
             for transaction in transactions:
-                date = transaction['users_transaction_date']
-                trans_type = transaction['users_transaction_type']
-                fund = transaction['users_transaction_fund']  # Retrieve the 'fund' field
+                date = transaction['transaction_timestamp']
+                trans_type = transaction['transaction_type']
+                fund = transaction['transaction_amount']  # Retrieve the 'fund' field
         
                 if date not in data_for_plot:
                     data_for_plot[date] = {'Debit': 0, 'Credit': 0, 'Account to G-wallet': 0}
@@ -42,7 +40,7 @@ class report_analysis(report_analysisTemplate):
                 elif isinstance(fund, str):
                     # Extract numeric value from the 'fund' field
                     try:
-                        money_amount = float(fund)
+                        money_amount = float(re.sub(r'[^\d.]', '', fund))
                     except ValueError:
                         money_amount = 0  # Handle cases where conversion to float fails
                 else:
@@ -55,14 +53,15 @@ class report_analysis(report_analysisTemplate):
                 elif trans_type == 'Account to G-wallet':
                     data_for_plot[date]['Account to G-wallet'] += money_amount
         
+            # Prepare data for the plot
             categories = list(data_for_plot.keys())
-            deposit_values = [data['Debit'] for data in data_for_plot.values()]
-            withdrawal_values = [data['Credit'] for data in data_for_plot.values()]
+            debit_values = [data['Debit'] for data in data_for_plot.values()]
+            credit_values = [data['Credit'] for data in data_for_plot.values()]
             e_wallet_values = [data['Account to G-wallet'] for data in data_for_plot.values()]
         
             self.plot_1.data = [
-                {'x': categories, 'y': deposit_values, 'type': 'bar', 'name': 'Debit'},
-                {'x': categories, 'y': withdrawal_values, 'type': 'bar', 'name': 'Credit'},
+                {'x': categories, 'y': debit_values, 'type': 'bar', 'name': 'Debit'},
+                {'x': categories, 'y': credit_values, 'type': 'bar', 'name': 'Credit'},
                 {'x': categories, 'y': e_wallet_values, 'type': 'bar', 'name': 'Account to G-wallet'}
             ]
             self.plot_1.layout = go.Layout(title="Transaction Trends")
@@ -70,15 +69,15 @@ class report_analysis(report_analysisTemplate):
         elif data_type == "user_activity":
             # Call the server function to get user data
             users = anvil.server.call('get_user_data')
-
+        
             # Count the number of active, inactive, and banned users
-            active_users = sum(1 for user in users if user['inactive'] is None and user['banned'] is None)
-            inactive_users = sum(1 for user in users if user['inactive'] is True and user['banned'] is None)
-            banned_users = sum(1 for user in users if user['banned'] is True)
-            
+            active_users = sum(1 for user in users if not user['inactive'] and not user['banned'])
+            inactive_users = sum(1 for user in users if user['inactive'] and not user['banned'])
+            banned_users = sum(1 for user in users if user['banned'])
+        
             # Calculate the total number of users
             total_users = banned_users + active_users + inactive_users
-            
+        
             # Check if the total number of users is greater than zero to avoid division by zero
             if total_users > 0:
                 banned_percentage = (banned_users / total_users) * 100
@@ -89,13 +88,23 @@ class report_analysis(report_analysisTemplate):
                 banned_percentage = 0
                 active_percentage = 0
                 inactive_percentage = 0
-
-            # Create pie chart data
+        
+            # Create pie chart data with labels and percentages
             labels = ['Banned Users', 'Active Users', 'Inactive Users']
             values = [banned_percentage, active_percentage, inactive_percentage]
-
-            self.plot_1.data = [{'labels': labels, 'values': values, 'type': 'pie'}]
-            self.plot_1.layout = go.Layout(title="User Activity")
+        
+            # Plot the pie chart with labels and percentages
+            self.plot_1.data = [{
+                'labels': labels,
+                'values': values,
+                'type': 'pie',
+                'textinfo': 'label+percent',  # Show both label and percentage on the chart
+                'hoverinfo': 'label+percent+value'  # Display value on hover for better insights
+            }]
+            self.plot_1.layout = go.Layout(
+                title="User Activity",
+                showlegend=True  # Ensure that the legend is shown
+            )
 
         elif data_type == "system_performance":
             # Call the server function to get transaction proof data
@@ -107,15 +116,28 @@ class report_analysis(report_analysisTemplate):
 
             # Calculate percentages
             total_transactions = successful_transactions + failed_transactions
-            success_percentage = (successful_transactions / total_transactions) * 100
-            failed_percentage = (failed_transactions / total_transactions) * 100
+            if total_transactions > 0:
+                success_percentage = (successful_transactions / total_transactions) * 100
+                failed_percentage = (failed_transactions / total_transactions) * 100
+            else:
+                success_percentage = 0
+                failed_percentage = 0
 
-            # Create pie chart data
+            # Create pie chart data with labels and percentages
             labels = ['Successful Transactions', 'Failed Transactions']
             values = [success_percentage, failed_percentage]
 
-            self.plot_1.data = [{'labels': labels, 'values': values, 'type': 'pie'}]
-            self.plot_1.layout = go.Layout(title="System Performance")
+            self.plot_1.data = [{
+                'labels': labels,
+                'values': values,
+                'type': 'pie',
+                'textinfo': 'label+percent',  # Show both label and percentage on the chart
+                'hoverinfo': 'label+percent+value'  # Display value on hover for better insights
+            }]
+            self.plot_1.layout = go.Layout(
+                title="System Performance",
+                showlegend=True  # Ensure that the legend is shown
+            )
 
         # Show the plot
         self.plot_1.visible = True
@@ -154,7 +176,7 @@ class report_analysis(report_analysisTemplate):
 
     def link_4_click(self, **event_args):
         """This method is called when the link is clicked"""
-        open_form('admin.admin_add_user',user=self.user)
+        open_form('admin.admin_add_user', user=self.user)
 
     def link_3_click(self, **event_args):
         """This method is called when the link is clicked"""
@@ -173,23 +195,21 @@ class report_analysis(report_analysisTemplate):
         open_form('admin', user=self.user)
 
     def link_8_click(self, **event_args):
-      """This method is called when the link is clicked"""
-      open_form('admin',user=self.user)
+        """This method is called when the link is clicked"""
+        open_form('admin', user=self.user)
 
     def link_10_click(self, **event_args):
-      """This method is called when the link is clicked"""
-      open_form('admin.add_currency',user=self.user)
+        """This method is called when the link is clicked"""
+        open_form('admin.add_currency', user=self.user)
 
     def link_5_copy_click(self, **event_args):
-      if self.user['users_usertype'] == 'super_admin':
-          # Open the admin creation form
-          open_form("admin.create_admin", user=self.user)
-      else:
-          # Show an alert if the user is not a super admin
-          alert("You're not a super admin. Only super admins can perform this action.")
+        if self.user['users_usertype'] == 'super_admin':
+            open_form('admin.manage_privacy', user=self.user)
+        else:
+            alert("Access Denied!")
 
-    def link_5_copy_2_click(self, **event_args):
-      open_form("admin.user_support",user = self.user)
-
-    def link_5_copy_3_click(self, **event_args):
-      open_form("admin.add_bank_account",user = self.user)
+    def link_6_copy_click(self, **event_args):
+        if self.user['users_usertype'] == 'super_admin':
+            open_form('admin.manage_privacy', user=self.user)
+        else:
+            alert("Access Denied!")
