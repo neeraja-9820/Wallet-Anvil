@@ -271,39 +271,39 @@ def get_transaction_proofs():
 def get_transactions():
     return app_tables.wallet_users_transaction.search()
 
-@anvil.server.callable
-def get_user_data():
-    # Fetch user data from the 'users' table
-    users_data = app_tables.wallet_users.search()
+# @anvil.server.callable
+# def get_user_data():
+#     # Fetch user data from the 'users' table
+#     users_data = app_tables.wallet_users.search()
 
-    # Create a list to store user information
-    user_list = []
+#     # Create a list to store user information
+#     user_list = []
 
-    # Iterate through each user's data
-    for user_row in users_data:
-        # Check the 'banned' column to determine if the user is active or non-active
-        if user_row['users_banned'] is None:
-            status = 'Active'
-        else:
-            status = 'Non-Active'
+#     # Iterate through each user's data
+#     for user_row in users_data:
+#         # Check the 'banned' column to determine if the user is active or non-active
+#         if user_row['users_banned'] is None:
+#             status = 'Active'
+#         else:
+#             status = 'Non-Active'
 
-        # Check the 'inactive' column to determine if the user is inactive
-        if user_row['users_inactive'] is None:
-            activity_status = 'Active'
-        else:
-            activity_status = 'Inactive'
+#         # Check the 'inactive' column to determine if the user is inactive
+#         if user_row['users_inactive'] is None:
+#             activity_status = 'Active'
+#         else:
+#             activity_status = 'Inactive'
 
-        # Append user information to the list
-        user_info = {
-            'username': user_row['users_username'],
-            'banned': user_row['users_banned'],
-            'inactive': user_row['users_inactive'],
-            'status': status,  # Include the 'status' information based on the 'banned' column
-            'activity_status': activity_status  # Include the 'activity_status' information based on the 'inactive' column
-        }
-        user_list.append(user_info)
+#         # Append user information to the list
+#         user_info = {
+#             'username': user_row['users_username'],
+#             'banned': user_row['users_banned'],
+#             'inactive': user_row['users_inactive'],
+#             'status': status,  # Include the 'status' information based on the 'banned' column
+#             'activity_status': activity_status  # Include the 'activity_status' information based on the 'inactive' column
+#         }
+#         user_list.append(user_info)
 
-    return user_list
+#     return user_list
 
 @anvil.server.callable
 def update_daily_limit(name, emoney_value):

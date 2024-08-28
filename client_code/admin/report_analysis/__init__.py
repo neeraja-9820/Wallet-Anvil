@@ -68,27 +68,35 @@ class report_analysis(report_analysisTemplate):
             self.plot_1.layout = go.Layout(title="Transaction Trends")
         
         elif data_type == "user_activity":
-    # Call the server function to get user data
+            # Call the server function to get user data
             users = anvil.server.call('get_user_data')
-        
+
             # Count the number of active, inactive, and banned users
             active_users = sum(1 for user in users if user['inactive'] is None and user['banned'] is None)
             inactive_users = sum(1 for user in users if user['inactive'] is True and user['banned'] is None)
             banned_users = sum(1 for user in users if user['banned'] is True)
-        
-            # Calculate percentages
+            
+            # Calculate the total number of users
             total_users = banned_users + active_users + inactive_users
-            banned_percentage = (banned_users / total_users) * 100
-            active_percentage = (active_users / total_users) * 100
-            inactive_percentage = (inactive_users / total_users) * 100
-        
+            
+            # Check if the total number of users is greater than zero to avoid division by zero
+            if total_users > 0:
+                banned_percentage = (banned_users / total_users) * 100
+                active_percentage = (active_users / total_users) * 100
+                inactive_percentage = (inactive_users / total_users) * 100
+            else:
+                # If there are no users, set percentages to zero
+                banned_percentage = 0
+                active_percentage = 0
+                inactive_percentage = 0
+
             # Create pie chart data
             labels = ['Banned Users', 'Active Users', 'Inactive Users']
             values = [banned_percentage, active_percentage, inactive_percentage]
-        
+
             self.plot_1.data = [{'labels': labels, 'values': values, 'type': 'pie'}]
             self.plot_1.layout = go.Layout(title="User Activity")
-        
+
         elif data_type == "system_performance":
             # Call the server function to get transaction proof data
             transaction_proofs = anvil.server.call('get_transaction_proofs')
