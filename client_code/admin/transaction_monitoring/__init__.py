@@ -70,7 +70,7 @@ class transaction_monitoring(transaction_monitoringTemplate):
                     
                     # Fetch sender user data
                     sender_user = anvil.server.call('get_user_data', sender_phone)
-                    print(f"Fetched sender data: {sender_user}")  # Log sender data to the console
+                    # print(f"Fetched sender data: {sender_user}")  # Log sender data to the console
                     
                     if sender_user:
                         profile_photo = sender_user.get('user_profile_photo', '_/theme/account.png')
@@ -95,7 +95,7 @@ class transaction_monitoring(transaction_monitoringTemplate):
                         'fund_color': fund_color
                     }
                     self.repeating_panel_items.append(transaction_details)
-                    print(f"Appended transaction for sender: {transaction_details}")  # Log the transaction details
+                    # print(f"Appended transaction for sender: {transaction_details}")  # Log the transaction details
                     
                     # Fetch receiver user data if applicable
                     receiver_phone = transaction.get('receiver_mobile_number')
@@ -127,11 +127,11 @@ class transaction_monitoring(transaction_monitoringTemplate):
                             'fund_color': fund_color
                         }
                         self.repeating_panel_items.append(receiver_transaction_details)
-                        print(f"Appended transaction for receiver: {receiver_transaction_details}")  # Log the receiver transaction details
+                        # print(f"Appended transaction for receiver: {receiver_transaction_details}")  # Log the receiver transaction details
             
             # Bind the items to the repeating panel
             self.repeating_panel_1.items = self.repeating_panel_items
-            print("Repeating panel items set successfully.")  # Log when items are set
+            # print("Repeating panel items set successfully.")  # Log when items are set
             
         except Exception as e:
             print(f"Error loading transactions: {e}")
