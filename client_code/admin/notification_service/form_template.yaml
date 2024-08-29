@@ -244,32 +244,96 @@ components:
   name: spacer_1
   properties: {height: 15}
   type: Spacer
-- layout_properties: {grid_position: 'NVDPWA,MVXWWY HASBVE,YATOOU'}
-  name: link_1
-  properties: {bold: true, text: Message Notifications}
-  type: Link
-- layout_properties: {grid_position: 'NVDPWA,MVXWWY HASBVE,LTKZLM'}
-  name: link_2
-  properties: {bold: true, text: Product Announcement}
-  type: Link
-- layout_properties: {grid_position: 'NVDPWA,MVXWWY HASBVE,HNHKBN'}
-  name: link_3
-  properties: {bold: true, text: Special Offers}
-  type: Link
-- layout_properties: {grid_position: 'NVDPWA,MVXWWY HASBVE,STUQFD'}
-  name: link_4
-  properties: {bold: true, text: ' Insights Tips'}
-  type: Link
-- components: []
-  layout_properties: {grid_position: 'NVDPWA,MVXWWY HASBVE,YYGMDR'}
-  name: link_5
-  properties: {bold: true, text: Price Alerts}
-  type: Link
-- layout_properties: {grid_position: 'NVDPWA,MVXWWY HASBVE,VUUVOE'}
-  name: link_6
-  properties: {bold: true, text: Account Activity}
-  type: Link
+- components:
+  - layout_properties: {grid_position: 'RNKPEZ,UWLAYL'}
+    name: link_1
+    properties: {align: center, bold: true, text: Message Notifications}
+    type: Link
+  - layout_properties: {grid_position: 'RNKPEZ,SRBXZC'}
+    name: link_2
+    properties: {align: center, bold: true, text: Product Announcement}
+    type: Link
+  - layout_properties: {grid_position: 'RNKPEZ,ITFQHN'}
+    name: link_3
+    properties: {align: center, bold: true, text: '     Special Offers'}
+    type: Link
+  - components: []
+    layout_properties: {grid_position: 'RNKPEZ,LGOBCY'}
+    name: link_4
+    properties: {align: center, bold: true, text: '      Insights Tips'}
+    type: Link
+  - components: []
+    layout_properties: {grid_position: 'RNKPEZ,OKGUNG'}
+    name: link_5
+    properties: {align: center, bold: true, text: '     Price Alerts'}
+    type: Link
+  - layout_properties: {grid_position: 'RNKPEZ,JYOEDE'}
+    name: link_6
+    properties: {align: center, bold: true, text: Account Activity}
+    type: Link
+  layout_properties: {grid_position: 'NVDPWA,MVXWWY YXGZKJ,XZQEJE'}
+  name: card_1
+  properties: {background: 'theme:Gray 300', role: card}
+  type: ColumnPanel
+- components:
+  - layout_properties: {grid_position: 'FJKBTS,ZHDYLQ'}
+    name: link_7
+    properties: {align: center, bold: false, text: Trigger Message Notification}
+    type: Link
+  layout_properties: {grid_position: 'NVDPWA,MVXWWY BABGVK,RAXQHX'}
+  name: column_panel_1
+  properties: {}
+  type: ColumnPanel
+- components:
+  - layout_properties: {grid_position: 'TOWVXZ,ETYAXQ'}
+    name: link_8
+    properties: {align: center, text: Trigger Product Announcement Notification}
+    type: Link
+  layout_properties: {grid_position: 'NVDPWA,MVXWWY LUAUKL,STEIVL'}
+  name: column_panel_2
+  properties: {}
+  type: ColumnPanel
+- components:
+  - layout_properties: {grid_position: 'TTUWKV,CYWGHL'}
+    name: link_9
+    properties: {align: center, text: Trigger Special Offers}
+    type: Link
+  layout_properties: {grid_position: 'NVDPWA,MVXWWY UGOOHM,JWIPFH'}
+  name: column_panel_3
+  properties: {}
+  type: ColumnPanel
+- components:
+  - layout_properties: {grid_position: 'WBFQXZ,KEFNYV'}
+    name: link_10
+    properties: {align: center, text: Trigger Isights Tips Notification}
+    type: Link
+  layout_properties: {grid_position: 'NVDPWA,MVXWWY GYDUKS,GDVRPN'}
+  name: column_panel_4
+  properties: {}
+  type: ColumnPanel
+- components:
+  - layout_properties: {grid_position: 'BEXOKA,DDRCIZ'}
+    name: link_11
+    properties: {align: center, text: Trigger Price Alerts}
+    type: Link
+  layout_properties: {grid_position: 'NVDPWA,MVXWWY CZKXBN,HZBNWJ'}
+  name: column_panel_5
+  properties: {}
+  type: ColumnPanel
+- components:
+  - layout_properties: {grid_position: 'VJCGAG,JHPPUO'}
+    name: link_12
+    properties: {align: left, text: Trigger Immediate Notifications}
+    type: Link
+  - layout_properties: {grid_position: 'VJCGAG,KLWQVZ'}
+    name: link_13
+    properties: {text: Trigger Delayed Notification}
+    type: Link
+  layout_properties: {grid_position: 'NVDPWA,MVXWWY XYGDSB,ANLIFP'}
+  name: column_panel_6
+  properties: {}
+  type: ColumnPanel
 container:
-  properties: {col_widths: '{"ZWZADA":15,"MVXWWY":45,"YATOOU":10,"LTKZLM":10,"HNHKBN":10,"STUQFD":10,"YYGMDR":10,"VUUVOE":10}'}
+  properties: {col_widths: '{"ZWZADA":15,"MVXWWY":45}'}
   type: ColumnPanel
 is_package: true
