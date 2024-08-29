@@ -14,8 +14,19 @@ class notification_service(notification_serviceTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    # self.user = user
+    # self.label_1.text=self.user['user_fullname']
+    self.hide_all_panels()
+  def hide_all_panels(self):
+    self.column_panel_1.visible = False
+    self.column_panel_2.visible = False
+    self.column_panel_3.visible = False
+    self.column_panel_4.visible = False
+    self.column_panel_5.visible = False
+    self.column_panel_6.visible = False
+    # Add more panels if you have more column panels
 
-    # Any code you write here will run before the form opens.
+
 
 
 
