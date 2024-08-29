@@ -102,3 +102,7 @@ class user_support(user_supportTemplate):
         queries = anvil.server.call('search_user_service_query', "")
         unsolved_queries = [q for q in queries if not q['users_update']]
         self.repeating_panel_1.items = unsolved_queries
+
+    def link_20_click(self, **event_args):
+      """This method is called when the link is clicked"""
+      open_form('admin.notification_service', user=self.user)

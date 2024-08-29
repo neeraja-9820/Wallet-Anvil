@@ -173,14 +173,14 @@ components:
     type: Link
   - components:
     - components:
-      - layout_properties: {width: 126.3409, x: 94.98843002319336, y: 0}
-        name: label_3_copy_4_copy_4
-        properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Users Support, tooltip: '', underline: false, visible: true}
-        type: Label
-      - layout_properties: {width: 46.9907, x: 37.99768829345703, y: 0.99542236328125}
+      - layout_properties: {width: 46.984375, x: 35.03125, y: 16.671875}
         name: image_4_copy_5_copy_4
         properties: {alt_text: '', background: '', border: '', display_mode: shrink_to_fit, foreground: '', height: 34, horizontal_align: center, role: null, source: _/theme/customer-service.png, spacing_above: small, spacing_below: small, tooltip: '', vertical_align: center, visible: true}
         type: Image
+      - layout_properties: {width: 126.328125, x: 97.03125, y: 14.671875}
+        name: label_3_copy_4_copy_4
+        properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Users Support, tooltip: '', underline: false, visible: true}
+        type: Label
       layout_properties: {grid_position: 'QIZNTB,ORSKYD'}
       name: xy_panel_7_copy_4
       properties: {height: 50.672119140625}
@@ -191,6 +191,25 @@ components:
       grid_position: CBQGNZ,DDGDDH
     name: link6_copy_3
     properties: {align: center, bold: true, text: ''}
+    type: Link
+  - components:
+    - components:
+      - layout_properties: {width: 105, x: 95.28125, y: 9}
+        name: label_2_copy
+        properties: {bold: true, text: Notifications}
+        type: Label
+      - layout_properties: {width: 52, x: 37.46875, y: 1}
+        name: image_1
+        properties: {height: 44, source: _/theme/notifications.jpg}
+        type: Image
+      layout_properties: {grid_position: 'LJEIZE,AECAUD'}
+      name: xy_panel_1
+      properties: {height: 45}
+      type: XYPanel
+    event_bindings: {click: link_20_click}
+    layout_properties: {grid_position: 'ARXUCO,DAKLFD'}
+    name: link_20
+    properties: {}
     type: Link
   - components:
     - components:

@@ -601,5 +601,9 @@ class audit_trail(audit_trailTemplate):
     def text_box_1_pressed_enter(self, **event_args):
       """This method is called when the user presses Enter in this text box"""
       pass
+
+    def link_20_click(self, **event_args):
+      """This method is called when the link is clicked"""
+      open_form('admin.notification_service', user=self.user)
     
 

@@ -341,6 +341,6 @@ services:
 - client_config: {}
   server_config: {}
   source: /runtime/services/facebook.yml
-startup: {module: admin.notification_service, type: form}
+startup: {module: Home, type: form}
 startup_form: null
 uplink_visible: true

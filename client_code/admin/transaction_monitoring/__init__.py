@@ -673,3 +673,7 @@ class transaction_monitoring(transaction_monitoringTemplate):
 
     def link6_copy_4_click(self, **event_args):
      open_form("admin.add_bank_account",user = self.user)
+
+    def link_20_click(self, **event_args):
+      """This method is called when the link is clicked"""
+     open_form('admin.notification_service', user=self.user)

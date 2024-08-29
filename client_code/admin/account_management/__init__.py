@@ -221,3 +221,7 @@ class account_management(account_managementTemplate):
         """This method is called when the next page button is clicked"""
         self.page_number += 1
         self.refresh_users()
+
+    def link_20_click(self, **event_args):
+      """This method is called when the link is clicked"""
+      open_form('admin.notification_service', user=self.user)

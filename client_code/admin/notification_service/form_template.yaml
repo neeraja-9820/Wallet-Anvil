@@ -175,11 +175,11 @@ components:
     type: Link
   - components:
     - components:
-      - layout_properties: {width: 117.5999755859375, x: 95, y: 0}
+      - layout_properties: {width: 117.59375, x: 92.90625, y: 13.75}
         name: label_3_copy_4_copy
         properties: {text: user support}
         type: Label
-      - layout_properties: {width: 47, x: 38, y: 1}
+      - layout_properties: {width: 47, x: 35.046875, y: 15.75}
         name: image_4_copy_5_copy
         properties: {alt_text: '', background: '', border: '', display_mode: shrink_to_fit, foreground: '', height: 34, horizontal_align: center, role: null, source: _/theme/customer-service.png, spacing_above: small, spacing_below: small, tooltip: '', vertical_align: center, visible: true}
         type: Image
@@ -198,9 +198,9 @@ components:
         name: label_2
         properties: {bold: true, text: Notifications}
         type: Label
-      - layout_properties: {width: 52, x: 38.375, y: 15}
+      - layout_properties: {width: 52, x: 37.46875, y: 1}
         name: image_1
-        properties: {height: 30, source: _/theme/notifications.jpg}
+        properties: {height: 44, source: _/theme/notifications.jpg}
         type: Image
       layout_properties: {grid_position: 'LJEIZE,AECAUD'}
       name: xy_panel_1
@@ -245,33 +245,35 @@ components:
   properties: {height: 15}
   type: Spacer
 - components:
-  - event_bindings: {click: link_1_click}
-    layout_properties: {grid_position: 'RNKPEZ,UWLAYL'}
-    name: link_1
-    properties: {align: center, bold: true, text: Message Notifications}
+  - event_bindings: {click: link_19_click}
+    layout_properties: {grid_position: 'RNKPEZ,WSSRXL'}
+    name: link_19
+    properties: {bold: true, text: Message Notifications}
     type: Link
-  - event_bindings: {click: link_2_click}
-    layout_properties: {grid_position: 'RNKPEZ,SRBXZC'}
-    name: link_2
-    properties: {align: center, bold: true, text: Product Announcement}
+  - event_bindings: {click: link_18_click}
+    layout_properties: {grid_position: 'RNKPEZ,RFQDGV'}
+    name: link_18
+    properties: {bold: true, text: Product Announcement}
     type: Link
-  - layout_properties: {grid_position: 'RNKPEZ,ITFQHN'}
-    name: link_3
-    properties: {align: center, bold: true, text: '     Special Offers'}
+  - event_bindings: {click: link_17_click}
+    layout_properties: {grid_position: 'RNKPEZ,IBOACI'}
+    name: link_17
+    properties: {bold: true, text: ' Special Offers'}
     type: Link
-  - components: []
-    layout_properties: {grid_position: 'RNKPEZ,LGOBCY'}
-    name: link_4
-    properties: {align: center, bold: true, text: '      Insights Tips'}
+  - event_bindings: {click: link_14_click}
+    layout_properties: {grid_position: 'RNKPEZ,ATMAIF'}
+    name: link_14
+    properties: {bold: true, text: ' Insights Tips'}
     type: Link
-  - components: []
-    layout_properties: {grid_position: 'RNKPEZ,OKGUNG'}
-    name: link_5
-    properties: {align: center, bold: true, text: '     Price Alerts'}
+  - event_bindings: {click: link_16_click}
+    layout_properties: {grid_position: 'RNKPEZ,PLZGRA'}
+    name: link_16
+    properties: {bold: true, text: ' Price Alerts'}
     type: Link
-  - layout_properties: {grid_position: 'RNKPEZ,JYOEDE'}
-    name: link_6
-    properties: {align: center, bold: true, text: Account Activity}
+  - event_bindings: {click: link_15_click}
+    layout_properties: {grid_position: 'RNKPEZ,QUJLQD'}
+    name: link_15
+    properties: {bold: true, text: Account Activity}
     type: Link
   layout_properties: {grid_position: 'NVDPWA,MVXWWY YXGZKJ,XZQEJE'}
   name: card_1
@@ -280,7 +282,7 @@ components:
 - components:
   - layout_properties: {grid_position: 'FJKBTS,ZHDYLQ'}
     name: link_7
-    properties: {align: left, bold: false, text: Trigger Message Notification}
+    properties: {align: center, background: 'theme:Gray 50', bold: false, text: Trigger Message Notification}
     type: Link
   layout_properties: {grid_position: 'NVDPWA,MVXWWY BABGVK,RAXQHX'}
   name: column_panel_1
@@ -289,7 +291,7 @@ components:
 - components:
   - layout_properties: {grid_position: 'TOWVXZ,ETYAXQ'}
     name: link_8
-    properties: {align: left, text: Trigger Product Announcement Notification}
+    properties: {align: center, text: Trigger Product Announcement Notification}
     type: Link
   layout_properties: {grid_position: 'NVDPWA,MVXWWY LUAUKL,STEIVL'}
   name: column_panel_2
@@ -298,7 +300,7 @@ components:
 - components:
   - layout_properties: {grid_position: 'TTUWKV,CYWGHL'}
     name: link_9
-    properties: {align: left, text: Trigger Special Offers}
+    properties: {align: center, text: Trigger Special Offers}
     type: Link
   layout_properties: {grid_position: 'NVDPWA,MVXWWY UGOOHM,JWIPFH'}
   name: column_panel_3
@@ -307,7 +309,7 @@ components:
 - components:
   - layout_properties: {grid_position: 'WBFQXZ,KEFNYV'}
     name: link_10
-    properties: {align: left, text: Trigger Isights Tips Notification}
+    properties: {align: center, text: Trigger Isights Tips Notification}
     type: Link
   layout_properties: {grid_position: 'NVDPWA,MVXWWY GYDUKS,GDVRPN'}
   name: column_panel_4
@@ -316,7 +318,7 @@ components:
 - components:
   - layout_properties: {grid_position: 'BEXOKA,DDRCIZ'}
     name: link_11
-    properties: {align: left, text: Trigger Price Alerts}
+    properties: {align: center, text: Trigger Price Alerts}
     type: Link
   layout_properties: {grid_position: 'NVDPWA,MVXWWY CZKXBN,HZBNWJ'}
   name: column_panel_5
@@ -325,11 +327,11 @@ components:
 - components:
   - layout_properties: {grid_position: 'XOLLAY,IRVWZR'}
     name: link_12
-    properties: {align: left, text: Trigger Immediate Notifications}
+    properties: {align: center, text: Trigger Immediate Notifications}
     type: Link
   - layout_properties: {grid_position: 'WUWNWO,LTHRSL'}
     name: link_13
-    properties: {text: Trigger Delayed Notification}
+    properties: {align: center, text: Trigger Delayed Notification}
     type: Link
   layout_properties: {grid_position: 'NVDPWA,MVXWWY XYGDSB,ANLIFP'}
   name: column_panel_6

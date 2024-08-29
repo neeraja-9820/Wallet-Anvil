@@ -252,3 +252,7 @@ class create_admin(create_adminTemplate):
 
 #     def link_5_copy_5_click(self, **event_args):
 #         open_form("admin.add_bank_account",user=self.user)
+
+    def link_20_click(self, **event_args):
+      """This method is called when the link is clicked"""
+      open_form('admin.notification_service', user=self.user)

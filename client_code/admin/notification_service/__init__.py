@@ -82,3 +82,33 @@ class notification_service(notification_serviceTemplate):
   def link_1_click(self, **event_args):
     """This method is called when the link is clicked"""
     open_form('admin.report_analysis', user=self.user)
+
+  def link_14_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    self.hide_all_panels()  # Hide all panels
+    self.column_panel_4.visible = True  # Show only column_panel_1
+
+  def link_19_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    self.hide_all_panels()  # Hide all panels
+    self.column_panel_1.visible = True  # Show only column_panel_1
+
+  def link_18_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    self.hide_all_panels()  # Hide all panels
+    self.column_panel_2.visible = True  # Show only column_panel_1
+
+  def link_17_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    self.hide_all_panels()  # Hide all panels
+    self.column_panel_3.visible = True  # Show only column_panel_1
+
+  def link_16_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    self.hide_all_panels()  # Hide all panels
+    self.column_panel_5.visible = True  # Show only column_panel_1
+
+  def link_15_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    self.hide_all_panels()  # Hide all panels
+    self.column_panel_6.visible = True  # Show only column_panel_1
