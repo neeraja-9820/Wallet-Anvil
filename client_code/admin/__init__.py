@@ -31,7 +31,7 @@ class admin(adminTemplate):
 
     def refresh_data(self):
     # Call the server function to get transactions data
-      transactions = anvil.server.call('get_transactions', self.user['user_fullname'])
+      transactions = anvil.server.call('get_wallet_transactions')
   
       # Check if there are no transactions
       if not transactions:
