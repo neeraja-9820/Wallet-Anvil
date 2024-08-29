@@ -68,7 +68,7 @@ class report_analysis(report_analysisTemplate):
         
         elif data_type == "user_activity":
             # Call the server function to get user data
-            users = anvil.server.call('get_user_data', self.user['user_fullname'])
+            users = anvil.server.call('get_user_pie', self.user['user_fullname'])
         
             # Count the number of active, inactive, and banned users
             active_users = sum(1 for user in users if self.is_user_active(user))
@@ -80,17 +80,9 @@ class report_analysis(report_analysisTemplate):
             values = [active_users, inactive_users, banned_users]
             
             # Plot the pie chart with click event handler
-            self.plot_1.data = [{
-                'labels': labels,
-                'values': values,
-                'type': 'pie',
-                'textinfo': 'label+percent',
-                'hoverinfo': 'label+percent+value'
-            }]
-            self.plot_1.layout = go.Layout(
-                title="User Activity",
-                showlegend=True
-            )
+            self.plot_1.data = [{'labels': labels, 'values': values, 'type': 'pie'}]
+            self.plot_1.layout = go.Layout(title="User Activity")
+        
 
         elif data_type == "system_performance":
             # Call the server function to get transaction proof data
@@ -134,11 +126,11 @@ class report_analysis(report_analysisTemplate):
 
     def is_user_inactive(self, user):
         """Check if the user is inactive (not banned but marked as inactive)."""
-        return user.get('user_banned') is None and user.get('user_inactive') is not None
+        return user.get('user_banned') is True and user.get('user_inactive') is not None
 
     def is_user_banned(self, user):
         """Check if the user is banned."""
-        return user.get('user_banned') is not None
+        return user.get('user_banned') is not True
 
     def plot_1_click(self, points, **event_args):
         """This method is called when a data point is clicked."""
