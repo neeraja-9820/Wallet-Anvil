@@ -194,11 +194,11 @@ components:
     type: Link
   - components:
     - components:
-      - layout_properties: {width: 107, x: 103.046875, y: 9}
+      - layout_properties: {width: 105, x: 95.28125, y: 9}
         name: label_2
         properties: {bold: true, text: Notifications}
         type: Label
-      - layout_properties: {width: 52, x: 48.28125, y: 15}
+      - layout_properties: {width: 52, x: 38.375, y: 15}
         name: image_1
         properties: {height: 30, source: _/theme/notifications.jpg}
         type: Image
@@ -244,7 +244,32 @@ components:
   name: spacer_1
   properties: {height: 15}
   type: Spacer
+- layout_properties: {grid_position: 'NVDPWA,MVXWWY HASBVE,YATOOU'}
+  name: link_1
+  properties: {bold: true, text: Message Notifications}
+  type: Link
+- layout_properties: {grid_position: 'NVDPWA,MVXWWY HASBVE,LTKZLM'}
+  name: link_2
+  properties: {bold: true, text: Product Announcement}
+  type: Link
+- layout_properties: {grid_position: 'NVDPWA,MVXWWY HASBVE,HNHKBN'}
+  name: link_3
+  properties: {bold: true, text: Special Offers}
+  type: Link
+- layout_properties: {grid_position: 'NVDPWA,MVXWWY HASBVE,STUQFD'}
+  name: link_4
+  properties: {bold: true, text: ' Insights Tips'}
+  type: Link
+- components: []
+  layout_properties: {grid_position: 'NVDPWA,MVXWWY HASBVE,YYGMDR'}
+  name: link_5
+  properties: {bold: true, text: Price Alerts}
+  type: Link
+- layout_properties: {grid_position: 'NVDPWA,MVXWWY HASBVE,VUUVOE'}
+  name: link_6
+  properties: {bold: true, text: Account Activity}
+  type: Link
 container:
-  properties: {col_widths: '{"ZWZADA":15,"MVXWWY":45}'}
+  properties: {col_widths: '{"ZWZADA":15,"MVXWWY":45,"YATOOU":10,"LTKZLM":10,"HNHKBN":10,"STUQFD":10,"YYGMDR":10,"VUUVOE":10}'}
   type: ColumnPanel
 is_package: true
