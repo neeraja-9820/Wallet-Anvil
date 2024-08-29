@@ -85,11 +85,11 @@ class report_analysis(report_analysisTemplate):
 
         elif data_type == "system_performance":
             # Call the server function to get transaction proof data
-            transaction_proofs = anvil.server.call('get_transaction_proofs')
+            transaction_proofs = anvil.server.call('get_wallet_transactions')
 
             # Count the number of successful and failed transactions
-            successful_transactions = sum(1 for proof in transaction_proofs if isinstance(proof, dict) and proof.get('users_transaction_status') == 'success')
-            failed_transactions = sum(1 for proof in transaction_proofs if isinstance(proof, dict) and proof.get('users_transaction_status') == 'failed')
+            successful_transactions = sum(1 for proof in transaction_proofs if isinstance(proof, dict) and proof.get('transaction_status') == 'success')
+            failed_transactions = sum(1 for proof in transaction_proofs if isinstance(proof, dict) and proof.get('transaction_status') == 'failed')
 
             # Calculate percentages
             total_transactions = successful_transactions + failed_transactions
@@ -104,17 +104,8 @@ class report_analysis(report_analysisTemplate):
             labels = ['Successful Transactions', 'Failed Transactions']
             values = [success_percentage, failed_percentage]
 
-            self.plot_1.data = [{
-                'labels': labels,
-                'values': values,
-                'type': 'pie',
-                'textinfo': 'label+percent',  # Show both label and percentage on the chart
-                'hoverinfo': 'label+percent+value'  # Display value on hover for better insights
-            }]
-            self.plot_1.layout = go.Layout(
-                title="System Performance",
-                showlegend=True  # Ensure that the legend is shown
-            )
+            self.plot_1.data = [{'labels': labels, 'values': values, 'type': 'pie'}]
+            self.plot_1.layout = go.Layout(title="System Performance")
 
         # Show the plot
         self.plot_1.visible = True
@@ -167,9 +158,9 @@ class report_analysis(report_analysisTemplate):
         """This method is called when the button is clicked"""
         self.refresh_data("user_activity")
 
-    # def link_99_click(self, **event_args):
-    #     """This method is called when the button is clicked"""
-    #     self.refresh_data("system_performance")
+    def link_99_click(self, **event_args):
+        """This method is called when the button is clicked"""
+        self.refresh_data("system_performance")
 
     def link_1_click(self, **event_args):
         """This method is called when the link is clicked"""
@@ -248,3 +239,5 @@ class report_analysis(report_analysisTemplate):
     #           print("Clicked on Banned Users")
     #           # Open the relevant form or perform an action
     #           # For example: open_form('admin.banned_users', user=self.user)
+
+    
